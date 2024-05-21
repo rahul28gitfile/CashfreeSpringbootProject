@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cashfree Checkout Integration</title>
+        <script src="https://sdk.cashfree.com/js/v3/cashfree.js"></script>
+    </head>
+    <body>
+        <div class="row">
+            <p>Click below to open the checkout page in the current tab</p>
+            <button id="renderBtn">Pay Now</button>
+        </div>
+        <script th:inline="javascript">
+      // let paymentSessionId: "[[${paymentSessionId}]]" ;
+            /*<![CDATA[*/
+            const cashfree = Cashfree({
+                mode: "sandbox",
+            });
+            let x = /*[[${paymentSessionId}]]*/
+            x = x.replace(/^"(.*)"$/, '$1');
+            document.getElementById("renderBtn").addEventListener("click", () => {
+                let checkoutOptions = {
+                    paymentSessionId: x, // This injects the ID as a string
+                    redirectTarget: "_self",
+                };
+                cashfree.checkout(checkoutOptions);
+            });
+            /*]]>*/
+        </script>
+    </body>
+</html>
